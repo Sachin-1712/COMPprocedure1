@@ -1,0 +1,41 @@
+    1  ls
+    2  unzip week1data.zip 
+    3  cat data1.txt
+    4  cat data1.txt data2.txt
+    5  cat *.txt
+    6  cat *.txt > all.txt
+    7  ls
+    8  cat all
+    9  cat all.txt
+   10  rm all.txt
+   11  grep "culture" *.txt
+   12  grep "Culture" *.txt
+   13  grep "Eagles" *.txt
+   14  grep "Abba" *.txt | cut -d "," -f 2,3
+   15  grep "John Lennon" *.txt | cut -d "," -f 3
+   16  cat *.txt | head - n 25
+   17* 
+   18  cat *.txt | head - n 25 | tail -n 1
+   19  cat *.txt
+   20* cat *.txt | head - n 25 | tail -n 1| sort
+   21  cat *.txt | head -n 25 | tail -n 1
+   22  cat *.txt | head -n 42 | tail -n 1
+   23  grep "Eminem" *.txt
+   24  grep "1992" *.txt
+   25  grep "Pink Floyd" *.txt | cut -d "," -f 2,3
+   26  grep "Pink Floyd" *.txt | cut -d "," -f 2,4
+   27  grep "1970" *.txt
+   28  grep "1970" sort *.txt
+   29  grep "1970" sort*.txt
+   30  grep "1970" -sort *.txt
+   31  grep "197" *.txt | cut -d "," -f 2 | sort
+   32  grep "42" *.txt | cut -d "," -f 3
+   33  cat *.txt | head -n 42 | tail -n 1
+   34  grep "Eminem" *.txt | cut -d "," -f 2,3
+   35  grep "1992" *.txt
+   36  grep "200" *.txt > naughties.txt
+   37  cat data*.txt | grep "200" * > naughties.txt
+   38  cat data*.txt | grep "200" > naughties.txt
+   39  cat naughties.txt
+   40  history . notes1.txt
+   41  history > notes1.txt

@@ -42,7 +42,43 @@ void tokeniseRecord(const char *input, const char *delimiter,
 }
 
 // Complete the main function
-int main() {
 
 
+int main()
+    {
+    FILE *fp = fopen("FitnessData_2023.csv", "r");
+    if (fp == NULL) {
+        printf("Error opening file.\n");
+        return 1;
+    }
+
+    FITNESS_DATA records[1000];
+    char line[1000];
+    char date[11];
+    char time[6];
+    char steps[10];
+    int recordCount = 0;
+
+    // Read lines and populate the records array
+    while (fgets(line, sizeof(line), fp) != NULL && recordCount < 1000) {
+        tokeniseRecord(line, ",", date, time, steps);
+        strcpy(records[recordCount].date, date);
+        strcpy(records[recordCount].time, time);
+        records[recordCount].steps = atoi(steps);
+        recordCount++;
+    }
+
+    fclose(fp);
+
+    // Print the number of records
+    printf("Number of records in file: %d\n",recordCount);
+
+    // Print the first three records
+    for (int i = 0; i < 3 && i < recordCount; i++) {
+        printf("%s/%s/%d\n", records[i].date, records[i].time, records[i].steps);
+    }
+
+    return 0;
 }
+
+

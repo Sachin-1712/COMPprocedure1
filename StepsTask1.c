@@ -7,7 +7,7 @@ typedef struct {
 	char date[11];
 	char time[6];
 	int steps;
-} FITNESS_DATA;
+} FITNESSDATA;
 
 // Define any additional variables here
 
@@ -52,7 +52,7 @@ int main()
         return 1;
     }
 
-    FITNESS_DATA records[1000];
+    FITNESSDATA records[1000];
     char line[1000];
     char date[11];
     char time[6];

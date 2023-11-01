@@ -46,7 +46,7 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 int main()
     {
-    FILE *fp = fopen("FitnessData_2023.csv", "r");
+    FILE *fp = fopen("FitnessData_2023.csv", "r"); // open the csv file
     if (fp == NULL) {
         printf("Error opening file.\n");
         return 1;
@@ -64,16 +64,16 @@ int main()
         tokeniseRecord(line, ",", date, time, steps);
         strcpy(records[recordCount].date, date);
         strcpy(records[recordCount].time, time);
-        records[recordCount].steps = atoi(steps);
+        records[recordCount].steps = atoi(steps); // convert string to integer using atoi()
         recordCount++;
     }
 
     fclose(fp);
 
-    // Print the number of records
+    // print the number of records
     printf("Number of records in file: %d\n",recordCount);
 
-    // Print the first three records
+    // print the first three records without spaces
     for (int i = 0; i < 3 && i < recordCount; i++) {
         printf("%s/%s/%d\n", records[i].date, records[i].time, records[i].steps);
     }

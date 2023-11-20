@@ -11,6 +11,7 @@
 // Ouputs: date character array; time character array; steps character array
 
 int total = 0;
+
 char choice;
 char filename[100];
 
@@ -24,8 +25,8 @@ int main()
         printf("B: Display the total number of records in the file\n");
         printf("C: Find the date and time of the timeslot with the fewest steps\n");
         printf("D: Find the data and time of the timeslot with the largest number of steps\n");
-        printf("E: Find the longest continuous period where the step count is above 500 steps\n");
-        printf("F: Find the mean step count of all the records in the file\n");
+        printf("E: Find the mean step count of all the records in the file\n");
+        printf("F: Find the longest continuous period where the step count is above 500 steps\n");
         printf("Q: Quit\n");
         printf("Enter choice: ");
 
@@ -62,27 +63,26 @@ int main()
             break;
 
         case 'C':
-        case 'c':
+        case 'c': 
+            find_FewestSteps();
             return 0;
             break;
 
         case 'D':
         case 'd':
+            find_LargestSteps();
             return 0;
             break;
 
         case 'E':
         case 'e':
+            find_meanStepCount();
             return 0;
             break;
 
         case 'F':
         case 'f':
-            return 0;
-            break;
-
-        case 'G':
-        case 'g':
+            findLongestContinuousPeriod();
             return 0;
             break;
 
@@ -91,9 +91,9 @@ int main()
             return 0;
             break;
 
-        // if they type anything else:
+        // if user inputs anything else:
         default:
-            printf("Invalid choice\n");
+            printf("Invalid choice, Try again\n");
             break;
         }
     }

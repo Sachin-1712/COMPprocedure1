@@ -10,7 +10,7 @@ typedef struct {
 } FitnessData;
 
 // Function to tokenize a record
-void tokeniseRecord(char *record, char *date, char *time, int *steps) {
+int tokeniseRecord(char *record, char *date, char *time, int *steps) {
     char *ptr = strtok(record, ",\t");
     if (ptr != NULL) {
         strcpy(date, ptr);
@@ -20,9 +20,11 @@ void tokeniseRecord(char *record, char *date, char *time, int *steps) {
             ptr = strtok(NULL, ",\t");
             if (ptr != NULL) {
                 *steps = atoi(ptr);
+                return 0;
             }
         }
     }
+    return 1;
 }
 
 

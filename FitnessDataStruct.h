@@ -130,16 +130,21 @@ void find_meanStepCount()
         printf("No records available. Import a file first.\n");
         return;
     }
-    int totalSteps = 0;
-
+    double totalSteps = 0;
+    double unroundedMean = 0;
     // Calculate the total steps
     for (int i = 0; i < recordCount; i++) 
     {
         totalSteps += records[i].steps;
     }
-
+    unroundedMean = totalSteps / recordCount;
     // Calculate and print the mean step count
-    int meanSteps = totalSteps / recordCount;
+    int meanSteps = unroundedMean;
+    int mean = unroundedMean - meanSteps;
+    if (mean > 0.5)
+    {
+        meanSteps++;
+    }
     printf("Mean step count: %d\n", meanSteps);
 }
 void findLongestContinuousPeriod() 
@@ -184,8 +189,8 @@ void findLongestContinuousPeriod()
     if (startIndex != -1 && endIndex != -1) 
     {
         // Print the result
-        printf("Longest period start:  %s %s\n", records[startIndex].date, records[startIndex].time);
-        printf("Longest period end:  %s %s\n", records[endIndex].date, records[endIndex].time );
+        printf("Longest period start: %s %s\n", records[startIndex].date, records[startIndex].time);
+        printf("Longest period end: %s %s\n", records[endIndex].date, records[endIndex].time );
     } 
     else 
     {

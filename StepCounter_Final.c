@@ -20,7 +20,7 @@ int main()
 {
     while (1)
     {
-
+        printf("Menu Options:\n");
         printf("A: Specify the filename to be imported - you need to check that the file opened correctly\n"); // BRONZE
         printf("B: Display the total number of records in the file\n");
         printf("C: Find the date and time of the timeslot with the fewest steps\n");
@@ -65,25 +65,21 @@ int main()
         case 'C':
         case 'c': 
             find_FewestSteps();
-            return 0;
             break;
 
         case 'D':
         case 'd':
             find_LargestSteps();
-            return 0;
             break;
 
         case 'E':
         case 'e':
             find_meanStepCount();
-            return 0;
             break;
 
         case 'F':
         case 'f':
             findLongestContinuousPeriod();
-            return 0;
             break;
 
         case 'Q':

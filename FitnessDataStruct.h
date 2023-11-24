@@ -141,7 +141,7 @@ void find_meanStepCount()
     // Calculate and print the mean step count
     int meanSteps = unroundedMean;
     int mean = unroundedMean - meanSteps;
-    if (mean > 0.5)
+    if (mean >= 0.5)
     {
         meanSteps++;
     }

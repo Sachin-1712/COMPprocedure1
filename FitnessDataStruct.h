@@ -130,8 +130,8 @@ void find_meanStepCount()
         printf("No records available. Import a file first.\n");
         return;
     }
-    double totalSteps = 0;
-    double unroundedMean = 0;
+    float totalSteps = 0;
+    float unroundedMean = 0;
     // Calculate the total steps
     for (int i = 0; i < recordCount; i++) 
     {
@@ -140,11 +140,11 @@ void find_meanStepCount()
     unroundedMean = totalSteps / recordCount;
     // Calculate and print the mean step count
     int meanSteps = unroundedMean;
-    int mean = unroundedMean - meanSteps;
-    if (mean >= 0.5)
+    if (unroundedMean - (float)meanSteps >= 0.5)
     {
         meanSteps++;
     }
+
     printf("Mean step count: %d\n", meanSteps);
 }
 void findLongestContinuousPeriod() 

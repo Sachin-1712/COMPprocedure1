@@ -10,67 +10,36 @@ typedef struct {
 } FitnessData;
 
 // Function to tokenize a record
-int tokeniseRecord(char *record, char *date, char *time, int *steps) {
-    // Check for an empty line
-    if (record[0] == '\0' || record[0] == '\n') {
-        printf("Error: Empty line found. Skipping.\n");
-        return 1;  // Empty line
-    }
-
-    // Check for the number of tokens
-    int tokenCount = 0;
-    char *ptr = record;
-    while (*ptr != '\0') {
-        if (*ptr == ',' || *ptr == '\t') {
-            tokenCount++;
+int tokeniseRecord(char *record, char delimiter, char *date, char *time, int *steps) {
+    char *ptr = strtok(record, &delimiter);
+    if (ptr != NULL) {
+        strcpy(date, ptr);
+        ptr = strtok(NULL, &delimiter);
+        if (ptr != NULL) {
+            strcpy(time, ptr);
+            ptr = strtok(NULL, &delimiter);
+            if (ptr != NULL) {
+                *steps = atoi(ptr);
+                return 1; // Tokenization successful
+            }
         }
-        ptr++;
     }
-
-    if (tokenCount != 2) {
-        printf("Error: Incorrect number of tokens in line. Skipping.\n");
-        return 1;  // Incorrect number of tokens
-    }
-
-    // Tokenize the record
-    ptr = strtok(record, ",\t");
-    if (ptr == NULL) {
-        printf("Error: Missing date in line. Skipping.\n");
-        return 1;  // Missing date
-    }
-    strcpy(date, ptr);
-
-    ptr = strtok(NULL, ",\t");
-    if (ptr == NULL) {
-        printf("Error: Missing time in line. Skipping.\n");
-        return 1;  // Missing time
-    }
-    strcpy(time, ptr);
-
-    ptr = strtok(NULL, ",\t");
-    if (ptr == NULL) {
-        printf("Error: Missing steps in line. Skipping.\n");
-        return 1;  // Missing steps
-    }
-
-    // Check if steps conversion is successful
-    char *endptr;
-    *steps = strtol(ptr, &endptr, 10);
-
-    if (*endptr != '\0' && *endptr != '\n') {
-        printf("Error: Invalid steps format in line. Skipping.\n");
-        return 1;  // Invalid steps format
-    }
-
-    return 0;  // Successful tokenization
+    // Tokenization failed, handle bad data and return 1
+    fprintf(stderr, "Bad data format: %s\n", record);
+    return 1;
 }
 
-// Function to perform bubble sort on FitnessData array
-void bubbleSort(FitnessData *data, int count) {
-    for (int i = 0; i < count - 1; i++) {
-        for (int j = 0; j < count - i - 1; j++) {
+// Function to compare FitnessData records for sorting
+int compareRecords(const void *a, const void *b) {
+    return ((FitnessData *)b)->steps - ((FitnessData *)a)->steps;
+}
+
+// Function to perform bubble sort on FitnessData records
+void bubbleSort(FitnessData *data, int recordCount) {
+    for (int i = 0; i < recordCount - 1; i++) {
+        for (int j = 0; j < recordCount - i - 1; j++) {
             if (data[j].steps < data[j + 1].steps) {
-                // Swap data[j] and data[j+1]
+                // Swap the records
                 FitnessData temp = data[j];
                 data[j] = data[j + 1];
                 data[j + 1] = temp;
@@ -81,51 +50,65 @@ void bubbleSort(FitnessData *data, int count) {
 
 int main() {
     char filename[100];
+    
+    // Step 1: Provide a menu option to specify a filename
     printf("Enter Filename: ");
     scanf("%s", filename);
 
-    // Open the file
+    // Step 2: Process the data file (read in and sort)
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
-        printf("Error opening file.\n");
+        printf("Error opening file %s\n", filename);
         return 1;
     }
+
+    // Check if the file has a .csv extension
+    char *dot = strrchr(filename, '.');
+    if (dot == NULL || strcmp(dot, ".csv") != 0) {
+        printf("Invalid file format. Please provide a CSV file.\n");
+        fclose(file);
+        return 1;
+    }
+
+    char line[100];
+    FitnessData data[100];
+    int recordCount = 0;
 
     // Read data from the file
-    FitnessData data[100];  // Assuming a maximum of 100 records, adjust as needed
-    int count = 0;
-    char line[100];
-
     while (fgets(line, sizeof(line), file) != NULL) {
-        // Check for errors during tokenization
-        if (tokeniseRecord(line, data[count].date, data[count].time, &data[count].steps) == 0) {
-            count++;
+        if (!tokeniseRecord(line, ',', data[recordCount].date, data[recordCount].time, &data[recordCount].steps)) {
+            printf("Invalid data format in file %s\n", filename);
+            fclose(file);
+            return 1;
         }
+        recordCount++;
     }
 
+    // Close the file
     fclose(file);
 
-    // Sort the data using bubble sort
-    bubbleSort(data, count);
+    // Step 3: Sort the data using bubble sort
+    bubbleSort(data, recordCount);
 
-    // Create and write to the output file
-    char outputFilename[100];
-    strcpy(outputFilename, filename);
-    strcat(outputFilename, ".tsv");
+    // Change the file extension to .csv.tsv
+    strcpy(dot, ".csv.tsv");
 
-    FILE *outputFile = fopen(outputFilename, "w");
+    // Write sorted data to the new file
+    FILE *outputFile = fopen(filename, "w");
     if (outputFile == NULL) {
-        printf("Error creating output file.\n");
+        printf("Error creating output file %s\n", filename);
         return 1;
     }
 
-    for (int i = 0; i < count; i++) {
+    // Write the sorted data to the output file in tab-separated format
+    for (int i = 0; i < recordCount; i++) {
         fprintf(outputFile, "%s\t%s\t%d\n", data[i].date, data[i].time, data[i].steps);
     }
 
+    // Close the output file
     fclose(outputFile);
 
-    printf("Data sorted and written to %s\n", outputFilename);
+    printf("Data sorted and written to %s\n", filename);
 
     return 0;
 }

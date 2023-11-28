@@ -20,7 +20,7 @@ int tokeniseRecord(char *record, char delimiter, char *date, char *time, int *st
             ptr = strtok(NULL, &delimiter);
             if (ptr != NULL) {
                 *steps = atoi(ptr);
-                return 0; // Tokenization successful
+                return 1; // Tokenization successful
             }
         }
     }

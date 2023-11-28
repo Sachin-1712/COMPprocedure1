@@ -9,7 +9,7 @@ typedef struct {
     int steps;
 } FitnessData;
 
-// Function to tokenize a record
+// Function to tokenise a record
 int tokeniseRecord(char *record, char delimiter, char *date, char *time, int *steps) {
     char *ptr = strtok(record, &delimiter);
     if (ptr != NULL) {
@@ -20,12 +20,12 @@ int tokeniseRecord(char *record, char delimiter, char *date, char *time, int *st
             ptr = strtok(NULL, &delimiter);
             if (ptr != NULL) {
                 *steps = atoi(ptr);
-                return 1; // Tokenization successful
+                return 1;
             }
         }
     }
-    // Tokenization failed, handle bad data and return 1
-    fprintf(stderr, "Bad data format: %s\n", record);
+    // Tokenisation failed, handle bad data and return 1
+    printf("Bad data format ");
     exit(1);
 }
 

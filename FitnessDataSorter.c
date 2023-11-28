@@ -24,7 +24,6 @@ int tokeniseRecord(char *record, char delimiter, char *date, char *time, int *st
             }
         }
     }
-    // Tokenisation failed, handle bad data and return 1
     printf("Bad data format ");
     exit(1);
 }
@@ -51,11 +50,11 @@ void bubbleSort(FitnessData *data, int recordCount) {
 int main() {
     char filename[100];
     
-    // Step 1: Provide a menu option to specify a filename
+    // Provide a menu option to specify a filename
     printf("Enter Filename: ");
     scanf("%s", filename);
 
-    // Step 2: Process the data file (read in and sort)
+    // Process the data file (read in and sort)
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         printf("Error opening file %s\n", filename);
@@ -75,19 +74,28 @@ int main() {
     int recordCount = 0;
 
     // Read data from the file
-    while (fgets(line, sizeof(line), file) != NULL) {
+    while (fgets(line, sizeof(line), file) != NULL) 
+    {
         if (!tokeniseRecord(line, ',', data[recordCount].date, data[recordCount].time, &data[recordCount].steps)) {
             printf("Invalid data format in file %s\n", filename);
             fclose(file);
             return 1;
-        }
+    }
+        // Check for missing steps
+    if (data[recordCount].steps == 0 || data[recordCount].date == 0 || data[recordCount].time == 0) 
+    {
+        printf("Missing data\n");
+        fclose(file);
+        return 1;
+    }
+
         recordCount++;
     }
 
     // Close the file
     fclose(file);
 
-    // Step 3: Sort the data using bubble sort
+    // Sort the data using bubble sort
     bubbleSort(data, recordCount);
 
     // Change the file extension to .csv.tsv
@@ -100,7 +108,7 @@ int main() {
         return 1;
     }
 
-    // Write the sorted data to the output file in tab-separated format
+    // Write the sorted data to the output file in tab-separated format (TSV)
     for (int i = 0; i < recordCount; i++) {
         fprintf(outputFile, "%s\t%s\t%d\n", data[i].date, data[i].time, data[i].steps);
     }

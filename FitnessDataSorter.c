@@ -20,13 +20,13 @@ int tokeniseRecord(char *record, char delimiter, char *date, char *time, int *st
             ptr = strtok(NULL, &delimiter);
             if (ptr != NULL) {
                 *steps = atoi(ptr);
-                return 1; // Tokenization successful
+                return 0; // Tokenization successful
             }
         }
     }
     // Tokenization failed, handle bad data and return 1
     fprintf(stderr, "Bad data format: %s\n", record);
-    return 1;
+    exit(1);
 }
 
 // Function to compare FitnessData records for sorting

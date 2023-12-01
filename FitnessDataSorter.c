@@ -34,10 +34,14 @@ int compareRecords(const void *a, const void *b) {
 }
 
 // Function to perform bubble sort on FitnessData records
-void bubbleSort(FitnessData *data, int recordCount) {
-    for (int i = 0; i < recordCount - 1; i++) {
-        for (int j = 0; j < recordCount - i - 1; j++) {
-            if (data[j].steps < data[j + 1].steps) {
+void bubbleSort(FitnessData *data, int recordCount) 
+{
+    for (int i = 0; i < recordCount - 1; i++) 
+    {
+        for (int j = 0; j < recordCount - i - 1; j++) 
+        {
+            if (data[j].steps < data[j + 1].steps) 
+            {
                 // Swap the records
                 FitnessData temp = data[j];
                 data[j] = data[j + 1];
@@ -56,14 +60,16 @@ int main() {
 
     // Process the data file (read in and sort)
     FILE *file = fopen(filename, "r");
-    if (file == NULL) {
+    if (file == NULL) 
+    {
         printf("Error opening file %s\n", filename);
         return 1;
     }
 
     // Check if the file has a .csv extension
     char *dot = strrchr(filename, '.');
-    if (dot == NULL || strcmp(dot, ".csv") != 0) {
+    if (dot == NULL || strcmp(dot, ".csv") != 0) 
+    {
         printf("Invalid file format. Please provide a CSV file.\n");
         fclose(file);
         return 1;
@@ -81,7 +87,7 @@ int main() {
             fclose(file);
             return 1;
     }
-        // Check for missing steps
+        // Check for missing steps, date or time
     if (data[recordCount].steps == 0 || data[recordCount].date == 0 || data[recordCount].time == 0) 
     {
         printf("Missing data\n");

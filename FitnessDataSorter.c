@@ -1,3 +1,5 @@
+// author: sc23sss@leeds.ac.uk
+// Task 3 Procedural Programming
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,7 +34,8 @@ int tokeniseRecord(char *record, char delimiter, char *date, char *time, int *st
 int compareRecords(const void *a, const void *b) {
     return ((FitnessData *)b)->steps - ((FitnessData *)a)->steps;
 }
-
+// I based this on an idea I found here:
+// https://www.geeksforgeeks.org/bubble-sort/
 // Function to perform bubble sort on FitnessData records
 void bubbleSort(FitnessData *data, int recordCount) 
 {
@@ -66,9 +69,11 @@ int main() {
         return 1;
     }
 
-    // Check if the file has a .csv extension
+    // Check if the file has a .csv extension by using strrchr to find last occurence of '.'
+    // I based this on an idea I found here:
+    // https://www.ibm.com/docs/en/zos/2.4.0?topic=functions-strrchr-find-last-occurrence-character-in-string
     char *dot = strrchr(filename, '.');
-    if (dot == NULL || strcmp(dot, ".csv") != 0) 
+    if (dot == NULL || strcmp(dot, ".csv") != 0) // to check if filename has a '.' and ".csv"
     {
         printf("Invalid file format. Please provide a CSV file.\n");
         fclose(file);
@@ -88,7 +93,7 @@ int main() {
             return 1;
     }
         // Check for missing steps, date or time
-    if (data[recordCount].steps == 0 || data[recordCount].date == 0 || data[recordCount].time == 0) 
+    if (data[recordCount].steps == '\0' || strlen(data[recordCount].date) == 0 || strlen(data[recordCount].time) == 0) 
     {
         printf("Missing data\n");
         fclose(file);
